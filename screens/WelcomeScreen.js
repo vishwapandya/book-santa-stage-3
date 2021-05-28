@@ -20,7 +20,7 @@ export default class WelcomeScreen extends Component{
   constructor(){
     super();
     this.state={
-      emailId:'',
+      emailID:'',
       password:'',
       firstName:'',
       lastName:'',
@@ -31,18 +31,18 @@ export default class WelcomeScreen extends Component{
     }
   }
 
-  userSignUp = (emailId, password,confirmPassword) =>{
+  signUp = (emailID, password,confirmPassword) =>{
    if(password !== confirmPassword){
        return Alert.alert("password doesn't match\nCheck your password.")
    }else{
      firebase.auth().createUserWithEmailAndPassword(emailId, password)
      .then(()=>{
        db.collection('users').add({
-         first_name:this.state.firstName,
-         last_name:this.state.lastName,
-         contact:this.state.contact,
-         email_id:this.state.emailId,
-         address:this.state.address
+         first_Name:this.state.firstName,
+         last_Name:this.state.lastName,
+         Contact:this.state.contact,
+         email_ID:this.state.emailId,
+         Address:this.state.address
        })
        return  Alert.alert(
             'User Added Successfully',
@@ -53,21 +53,18 @@ export default class WelcomeScreen extends Component{
         );
      })
      .catch((error)=> {
-       // Handle Errors here.
-       var errorCode = error.code;
        var errorMessage = error.message;
        return Alert.alert(errorMessage)
      });
    }
  }
 
-userLogin = (emailId, password)=>{
-   firebase.auth().signInWithEmailAndPassword(emailId, password)
+login = (emailID, password)=>{
+   firebase.auth().signInWithEmailAndPassword(emailID, password)
    .then(()=>{
      return Alert.alert("Successfully Login")
    })
    .catch((error)=> {
-     var errorCode = error.code;
      var errorMessage = error.message;
      return Alert.alert(errorMessage)
    })
@@ -133,7 +130,7 @@ showModal = ()=>{
           keyboardType ={'email-address'}
           onChangeText={(text)=>{
             this.setState({
-              emailId: text
+              emailID: text
             })
           }}
         /><TextInput
@@ -159,7 +156,7 @@ showModal = ()=>{
           <TouchableOpacity
             style={styles.registerButton}
             onPress={()=>
-              this.userSignUp(this.state.emailId, this.state.password, this.state.confirmPassword)
+              this.signUp(this.state.emailID, this.state.password, this.state.confirmPassword)
             }
           >
           <Text style={styles.registerButtonText}>Register</Text>
@@ -199,7 +196,7 @@ showModal = ()=>{
             keyboardType ='email-address'
             onChangeText={(text)=>{
               this.setState({
-                emailId: text
+                emailID: text
               })
             }}
           />
@@ -216,7 +213,7 @@ showModal = ()=>{
         <TouchableOpacity
            style={[styles.button,{marginBottom:20, marginTop:20}]}
            onPress = {()=>{
-             this.userLogin(this.state.emailId, this.state.password)
+             this.login(this.state.emailID, this.state.password)
            }}
            >
            <Text style={styles.buttonText}>Login</Text>
